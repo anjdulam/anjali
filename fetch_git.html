@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch from GIT</title>
+</head>
+<body>
+    
+    <p id = "demo" style ="font-size: 20px; font-weight: bold;"></p>
+
+    <button onclick = "tablecr()">Click here</button>
+    <br><br>
+
+    <table id="table" align = "left" border="5px"></table>
+
+    <script>
+        fetch('https://rawcdn.githack.com/kmitprojectschool/sem12022/788c820e40a750fecb30433c8d346457b7859abc/employee.json')
+        .then(response => response.json())
+        .then(data => console.log(data))
+
+        var el_up = document.getElementById("demo");
+
+        var list = [{
+			"Name": "Scott",
+			"Address": "Hyderabad",
+			"Salary": 500000,
+			"DateOfJoining": "23-1-2012"
+		},
+		{
+			"Name": "Ram",
+			"Address": "Hyderabad",
+			"Salary": 300000,
+			"DateOfJoining": "23-12-2010"
+		},
+		{
+			"Name": "John",
+			"Address": "Bangalore",
+			"Salary": 700000,
+			"DateOfJoining": "23-12-2010"
+		}
+	];
+
+        el_up.innerHTML = "Click on the button to create the " + "table from the JSON data.<br><br>" + JSON.stringify(list[0]) + "<br>" + JSON.stringify(list[1]) + "<br>"+ JSON.stringify(list[2]);   
+        myData(list);
+        function myData(Data)
+        {
+        
+        console.log("First three profiles");
+        for(var i=0; i<3; i++) console.log(Data[i]);
+         
+        console.log("Emp with sal> 50000");
+        for(var i=0; i<3; i++)
+        {
+            let x = Data[i].Salary;
+            if(x > 50000)console.log(Data[i].Name);
+        }
+
+        console.log("Emp who joined in month of DEC");
+        for(var i=0; i<3; i++)
+        {
+            let c="";
+            let y = Data[i].DateOfJoining;
+            for(var j=3; j<=4;j++){
+                c+=y[j];
+            }
+            if(c=="12")console.log(Data[i].Name);
+        }
+        }
+
+        function tablecr() {
+            var cols = [];
+
+            for (var i = 0; i < list.length; i++) {
+                for (var k in list[i]) {
+                    if (cols.indexOf(k) === -1) cols.push(k);
+                }
+            }
+            var table = document.createElement("table");
+            var tr = table.insertRow(-1);
+
+            for (var i = 0; i < cols.length; i++) {
+                var theader = document.createElement("th");
+                theader.innerHTML = cols[i];
+                tr.appendChild(theader);
+            }
+
+            for (var i = 0; i < list.length; i++) {
+                trow = table.insertRow(-1);
+
+                for (var j = 0; j < cols.length; j++) {
+                    var cell = trow.insertCell(-1);
+                    cell.innerHTML = list[i][cols[j]];
+                }
+            }
+
+            var el = document.getElementById("table");
+            el.innerHTML = "";
+            el.appendChild(table);
+        }  
+    </script>
+</body>
+</html>
